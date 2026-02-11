@@ -1,8 +1,5 @@
 // 1. YOUR CONFIGURATION
-const SHEET_ID = '17cKDMNHug1BK70AlmcoqbOeztRLOEuAiFbng8ENHiM'; // Your Sheet ID from the image
-const SHEET_TITLE = 'Sheet1';
-const SHEET_RANGE = 'A2:G50'; // Starting from A2 to skip headers
-const FULL_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?sheet=${SHEET_TITLE}&range=${SHEET_RANGE}`;
+const FULL_URL = `https://docs.google.com/spreadsheets/d/17cKDMNThug1BK70AlmcoqbOeztRLOEuAiFbng8eNHiM/edit?usp=sharing`;
 
 let allProducts = [];
 
