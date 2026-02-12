@@ -65,8 +65,8 @@
 
 <script>
     // --- CHANGE CLOUDINARY DETAILS HERE ---
-    const CLOUD_NAME = "your_cloud_name"; // Change this
-    const UPLOAD_PRESET = "your_unsigned_preset"; // Change this
+    const CLOUD_NAME = "drnluphzq"; // Change this
+    const UPLOAD_PRESET = "ml_default"; // Change this
     // ---------------------------------------
 
     const myWidget = cloudinary.createUploadWidget({
