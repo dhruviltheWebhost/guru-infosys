@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guru Infosys | Admin Panel</title>
+    <script src="https://upload-widget.cloudinary.com/global/all.js" type="text/javascript"></script>
+    <style>
+        :root {
+            --bg: #0f172a;
+            --card: #1e293b;
+            --cyan: #00f2ff;
+            --text: #f8fafc;
+        }
+        body { background: var(--bg); color: var(--text); font-family: sans-serif; padding: 40px; }
+        .admin-card { background: var(--card); max-width: 600px; margin: 0 auto; padding: 30px; border-radius: 15px; border: 1px solid #334155; }
+        h2 { color: var(--cyan); text-align: center; margin-bottom: 25px; }
+        .form-group { margin-bottom: 20px; }
+        label { display: block; margin-bottom: 8px; font-size: 0.9rem; color: #94a3b8; }
+        input, select { width: 100%; padding: 12px; background: #0f172a; border: 1px solid #334155; color: white; border-radius: 8px; }
+        .upload-area { border: 2px dashed var(--cyan); padding: 20px; text-align: center; cursor: pointer; border-radius: 8px; margin-bottom: 20px; }
+        .btn-save { width: 100%; padding: 15px; background: var(--cyan); color: #000; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; }
+        #preview-img { width: 100%; max-height: 200px; object-fit: contain; display: none; margin-top: 10px; border-radius: 8px; }
+    </style>
+</head>
+<body>
+
+<div class="admin-card">
+    <h2>Add New Inventory</h2>
+    
+    <div class="upload-area" id="upload-btn">
+        <i class="fas fa-camera"></i>
+        <p id="upload-status">Click to Upload Product Photo</p>
+        <img id="preview-img" src="" alt="Preview">
+    </div>
+
+    <form id="product-form">
+        <input type="hidden" id="image-url"> <div class="form-group">
+            <label>Model Name</label>
+            <input type="text" id="modelName" placeholder="e.g. Epson EB-X41" required>
+        </div>
+
+        <div class="form-group">
+            <label>Category</label>
+            <select id="category">
+                <option value="Projector">Projector</option>
+                <option value="Business Laptop">Business Laptop</option>
+                <option value="Accessory">Accessory</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>Specs (Lumens or Processor)</label>
+            <input type="text" id="specs" placeholder="3600 Lumens / i5 8th Gen" required>
+        </div>
+
+        <div class="form-group">
+            <label>Price (INR)</label>
+            <input type="text" id="price" placeholder="₹22,000" required>
+        </div>
+
+        <button type="submit" class="btn-save">Add to Inventory & Sheet</button>
+    </form>
+</div>
+
+<script>
+    // --- CHANGE CLOUDINARY DETAILS HERE ---
+    const CLOUD_NAME = "your_cloud_name"; // Change this
+    const UPLOAD_PRESET = "your_unsigned_preset"; // Change this
+    // ---------------------------------------
+
+    const myWidget = cloudinary.createUploadWidget({
+        cloudName: CLOUD_NAME, 
+        uploadPreset: UPLOAD_PRESET,
+        sources: ['local', 'url', 'camera'] //
+    }, (error, result) => { 
+        if (!error && result && result.event === "success") { 
+            document.getElementById('image-url').value = result.info.secure_url; 
+            document.getElementById('preview-img').src = result.info.secure_url;
+            document.getElementById('preview-img').style.display = 'block';
+            document.getElementById('upload-status').innerText = "Image Uploaded Successfully!";
+        }
+    });
+
+    document.getElementById("upload-btn").addEventListener("click", () => myWidget.open());
+
+    // Submit to Google Sheet (Requires a Google Apps Script Web App URL)
+    document.getElementById('product-form').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const submitBtn = document.querySelector('.btn-save');
+        submitBtn.innerText = "Saving to Google Sheet...";
+        
+        // This is where you would call your Google Apps Script URL
+        // to append the row to your Sheet.
+        alert("Details ready to send to Sheet!\nModel: " + document.getElementById('modelName').value + 
+              "\nImage: " + document.getElementById('image-url').value);
+              
+        submitBtn.innerText = "Add to Inventory & Sheet";
+    });
+</script>
+
+</body>
+</html>
